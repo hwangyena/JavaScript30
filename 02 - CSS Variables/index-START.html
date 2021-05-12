@@ -21,25 +21,22 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-    :root {
+    /* 사용자의 HTML 문서 어디에서나 속성에 접근할 수 있도록 root에 구성함 */
+    :root{
       --base: #ffc600;
       --spacing: 10px;
       --blur: 10px;
     }
-
-    img {
-      padding: var(--spacing);
+    
+    img{
       background: var(--base);
+      padding: var(--spacing);
       filter: blur(var(--blur));
     }
 
-    .hl {
+    .hl{
       color: var(--base);
     }
-
-    /*
-      misc styles, nothing to do with CSS variables
-    */
 
     body {
       text-align: center;
@@ -60,17 +57,35 @@
   </style>
 
   <script>
+    //내가 짠 소스
+    // let values = document.querySelectorAll("input");
+
+    // console.log(values);
+
+    // let root = document.documentElement; //??????????????
+
+    // values.forEach(event => event.addEventListener('input', function(){
+    //   if(event.id === 'base')
+    //     root.style.setProperty("--"+event.id, event.value);
+    //   else
+    //     root.style.setProperty("--"+event.id, event.value+"px");    
+    //   }));
+
+
+    //course
     const inputs = document.querySelectorAll('.controls input');
 
-    function handleUpdate() {
-      const suffix = this.dataset.sizing || '';
+    function handleUpdate(){
+      //dataset: data- 로 시작하는 data object 가져오기
+      //값이 없는 경우 ''
+      const suffix = this.dataset.sizing || '';  
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
     }
 
     inputs.forEach(input => input.addEventListener('change', handleUpdate));
     inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
-  </script>
 
+  </script>
 
 </body>
 </html>
