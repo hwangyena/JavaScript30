@@ -5,16 +5,20 @@
   <title>JS + CSS Clock</title>
 </head>
 <body>
-
+  <div class="container">
+    <div class="clock-digital">
+    <h1><span class="hour"></span>:<span class="min"></span>:<span class="sec"></span></h1>
+    </div>
 
     <div class="clock">
+      <span class="clock-mid"></span>
       <div class="clock-face">
         <div class="hand hour-hand"></div>
         <div class="hand min-hand"></div>
         <div class="hand second-hand"></div>
       </div>
     </div>
-
+  </div>
 
   <style>
    
@@ -59,17 +63,89 @@
 
     .hand {
       width: 50%;
-      height: 6px;
-      background: black;
+      height: 5px;
+      background: white;
       position: absolute;
       top: 50%;
+
+      /* 오른쪽 끝에 기준을 맞춰 회전하게 해줌 */
+      transform-origin: 100%;
+      transform: rotate(90deg); /*첫 기준: 12시 정각이라서 90으로 맞춘거임*/
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0, 1.12, 0.31, 2.01);
     }
 
+    /*clock 초침 변경 css*/
+    .hour-hand{
+      width: 30%;
+      position:relative;
+      left: 60px;
+    }
+
+    .second-hand{
+      height: 2px;
+    }
+
+    .clock-mid{
+      height: 20px;
+      width: 20px;
+      background-color: #fff;
+      border-radius: 50%;
+      display: inline-block;
+      position: absolute;
+      top: 47%; left:47%;
+    }
+
+     /*digital 시계 추기*/
+     .container{
+      margin: 50px auto;   
+      color: white; 
+      font-size: 3rem;
+    }
+
+    h1>span{
+      margin: auto 17px;
+    }
   </style>
 
   <script>
+    const sec = document.querySelector('.second-hand');
+    const min = document.querySelector('.min-hand');
+    const hour = document.querySelector('.hour-hand');
+   
+    const secondDigital = document.querySelector('.sec');
+    const minuteDigital = document.querySelector('.min');
+    const hourDigital = document.querySelector('.hour');
 
 
+    function setDate(){
+      const now = new Date();
+
+      const seconds = now.getSeconds();
+      /*
+      60: 우리가 나눈 등분, 총 60초 -> 60등분
+      360: 총 회전해야하는 정도: 360도 회전하므로 360
+      90: 첫 시작이 90이라서
+      */
+      const secondsDegrees = ((seconds/60)*360) + 90;
+      sec.style.transform= `rotate(${secondsDegrees}deg)`;
+
+      const minutes = now.getMinutes();
+      const minutesDegrees = ((minutes/60)*360) + 90;
+      min.style.transform = `rotate(${minutesDegrees}deg)`;
+
+      const hours = now.getHours();
+      const hoursDegrees = ((hours/12)*360) + 90;
+      hour.style.transform = `rotate(${hoursDegrees}deg)`;
+
+      /*Digital Clock*/
+      secondDigital.innerText = (seconds<10 ? "0"+seconds : seconds);
+      minuteDigital.innerText = (minutes<10 ? "0"+minutes : minutes);
+      hourDigital.innerText = (hours<10 ? "0"+hours : hours);
+    }
+
+    //1000ms마다 setDate 실행
+    setInterval(setDate, 1000);
   </script>
 </body>
 </html>
