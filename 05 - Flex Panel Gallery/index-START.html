@@ -26,6 +26,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -43,6 +44,14 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+
+      /*전체 창(container)의 item*/
+      flex: 1;
+
+      /*글자들의 위치를 잡기위한 container*/
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -56,7 +65,20 @@
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      
+      /*pannel의 item*/
+      flex: 1 0 auto; 
+
+      /*flex container로서의 속성*/
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+    /*translateY*/
+    .panel > *:first-child{ transform:translateY(-100%); }
+    .panel > *:last-child{ transform:translateY(100%); }
+    .panel.active > *:first-child{ transform:translateY(0); }
+    .panel.active > *:last-child{ transform:translateY(0); }
 
     .panel p {
       text-transform: uppercase;
@@ -65,11 +87,13 @@
       font-size: 2em;
     }
     
+    
     .panel p:nth-child(2) {
       font-size: 4em;
     }
 
     .panel.open {
+      flex: 3; /*flex의 기본크기:1, open class 추가시 3만큼의 공간 더 차지*/
       font-size: 40px;
     }
 
@@ -105,7 +129,29 @@
   </div>
 
   <script>
+    const panelClick = document.querySelectorAll('.panel');
+    /*내가짠 script*/
+    // panelClick.forEach(function(p){
+    //   p.addEventListener("click", (e)=>{
+    //     this.classList.toggle("open");
+    //     this.classList.toggle("active");
+    //   });
+    // });
 
+    function toggleOpen(){
+      this.classList.toggle('open');
+    }
+
+    function toggleActive(e){
+      console.log(e.propertyName);
+
+      if(e.propertyName.includes('flex')){
+        this.classList.toggle("active");
+      }
+    }
+
+    panelClick.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panelClick.forEach(panel => panel.addEventListener('transitionend', toggleActive));
   </script>
 
 
