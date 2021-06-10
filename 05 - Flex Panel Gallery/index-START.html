@@ -131,24 +131,25 @@
   <script>
     const panelClick = document.querySelectorAll('.panel');
     /*내가짠 script*/
-    // panelClick.forEach(function(p){
-    //   p.addEventListener("click", (e)=>{
-    //     this.classList.toggle("open");
-    //     this.classList.toggle("active");
-    //   });
-    // });
-
-    function toggleOpen(){
-      this.classList.toggle('open');
-    }
-
-    function toggleActive(e){
-      console.log(e.propertyName);
-
-      if(e.propertyName.includes('flex')){
+    panelClick.forEach(function(p){
+      p.addEventListener("click", (e)=>{
+        this.classList.toggle("open");
         this.classList.toggle("active");
-      }
-    }
+      });
+    });
+
+    /*Course*/
+    // function toggleOpen(){
+    //   this.classList.toggle('open');
+    // }
+
+    // function toggleActive(e){
+    //   console.log(e.propertyName);
+
+    //   if(e.propertyName.includes('flex')){
+    //     this.classList.toggle("active");
+    //   }
+    // }
 
     panelClick.forEach(panel => panel.addEventListener('click', toggleOpen));
     panelClick.forEach(panel => panel.addEventListener('transitionend', toggleActive));
